@@ -26,21 +26,12 @@ const CONFIG = {
 //注册日志模块 监测日志 第一个注册
 // app.use(logger())
 
-<<<<<<< HEAD
 //配置koa-body 处理post 请求数据
 app.use(body())
 
 //注册session
 app.use(session(CONFIG,app))
 
-=======
-//注册session
-app.use(session(CONFIG,app))
-
-//配置 koa-body 处理 post 请求数据
-app.use(body())
-
->>>>>>> 30ee51bd7543f02f0c8695ca268b21bf8fa5f921
 //配置视图模块
 app.use(views(join(__dirname,'views'),{
   extension:'pug'
