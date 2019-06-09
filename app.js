@@ -11,8 +11,9 @@ const app = new Koa
 
 app.keys = ["步惊云"]
 
+// session 的配置对象
 const CONFIG = {
-  keys:'Sid',
+  key:'Sid',
   maxAge:36e5,//毫秒
   autoCommit:true,
   overwrite:true,

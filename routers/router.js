@@ -3,7 +3,7 @@ const router = new Router
 const user = require("../control/user")
 
 //设计主页
-router.get("/",async ctx => {
+router.get("/",user.keepLog,async ctx => {
   //需要title
   await ctx.render("index",{
     title:"这是一个正经的主页"
