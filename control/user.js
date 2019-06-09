@@ -5,6 +5,7 @@ const encrypt = require("../util/encrypt")
 //通过 db 对象创建操作user数据库的模型对象
 const User = db.model("users",UserSchema)
 
+// 用户注册
 exports.reg = async ctx => {
   // 用户注册时 post 发过来的数据
   const user = ctx.request.body
@@ -57,4 +58,43 @@ exports.reg = async ctx => {
     })
   })
 
+}
+
+// 用户登录
+exports.login = async ctx => {
+
+  //拿到post数据
+  const user = ctx.request.body
+  const username = user.username
+  const password = user.password
+
+  await new Promise((resolve,reject) => {
+    User.find({username},(err,data) =>{
+      if(err)return reject(err)
+      if(data.length === 0)return reject("用户名不存在")
+
+      //把用户传过来的密码 加密后跟数据库比对
+      if (data[0].password === encrypt(password)) {
+        return resolve(data)
+      }
+      resolve("")
+    })
+
+  })
+  .then(async data => {
+    if (!data) {
+     return ctx.render("isOk", {
+       status:"密码不正确，登录失败"
+     }) 
+    }
+    //登录成功
+    await ctx.render("isOk",{
+      status:"登录成功"
+    })
+  })
+  .catch(async err => {
+    await ctx.render("isOk",{
+      status:"登录失败"
+    })
+  })
 }
