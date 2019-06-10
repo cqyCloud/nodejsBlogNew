@@ -14,13 +14,13 @@ app.keys = ["步惊云"]
 // session 的配置对象
 const CONFIG = {
   key:'Sid',
-  maxAge:36e5,//毫秒
-  autoCommit:true,
-  overwrite:true,
+  maxAge:36e5,//毫秒 1小时过期
+  // autoCommit:true,
+  overwrite:true,//是否覆盖
   httpOnly:true,
-  signed:true,
-  rolling:true,
-  renew:false
+  // signed:true,//是否签名
+  rolling:true,//是否要刷新
+  // renew:false
 }
 
 
@@ -30,7 +30,7 @@ const CONFIG = {
 //配置koa-body 处理post 请求数据
 app.use(body())
 
-//注册session
+//注册session 类似前端的cookie
 app.use(session(CONFIG,app))
 
 //配置视图模块

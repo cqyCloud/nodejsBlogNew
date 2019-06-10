@@ -6,7 +6,8 @@ const user = require("../control/user")
 router.get("/",user.keepLog,async ctx => {
   //需要title
   await ctx.render("index",{
-    title:"这是一个正经的主页"
+    title:"这是一个正经的主页",
+    session:ctx.session
   })
 })
 
@@ -24,5 +25,8 @@ router.post("/user/reg",user.reg)
 
 // 用户登录
 router.post("/user/login",user.login)
+
+//用户退出
+router.get("/user/logout",user.logout)
 
 module.exports = router
