@@ -9,15 +9,15 @@ mongoose.Promise = global.Promise
 const Schema = mongoose.Schema
 
 db.on("error",() => {
-    console.log("连接数据库失败")
+  console.log("连接数据库失败")
 })
 
 db.on("open", () => {
-    console.log("blogproject 数据库链接成功")
+  console.log("blogproject 数据库链接成功")
 })
 
 
 module.exports = {
-    db,
-    Schema
+  db,
+  Schema
 }
