@@ -1,6 +1,7 @@
 extends ./layout/layout
+
 block css
-  style
+  style.
     #main .layui-container{
       margin-bottom: 15px;
       margin-top: 76px;
@@ -44,7 +45,7 @@ block contents
                   .layui-col-md3
                     label.layui-form-label 文章分类
                     .layui-input-block
-                      select(lay-verify="required",name="tips",lay-filter="column")
+                      select(lay-verify="required", name="tips", lay-filter="column")
                         option
                         option(value="nodejs") nodejs
                         option(value="vue") vue
@@ -55,7 +56,9 @@ block contents
                     .layui-input-block
                       input(type="text" name="title" required="" lay-verify="required" autocomplete="off")#L-title.layui-input
                 .layui-form-item.layui-form-text
-                  textarea(style="display:none;")#article-content
+                  textarea(style="display: none;")#article-content
+
+
           .layui-form-item
             button(lay-filter="send" lay-submit).layui-btn 立即发布
 
@@ -70,7 +73,7 @@ block scripts
         hideTool:[
           'image'//-插入图片
         ]
-      })；//-建立编辑器
+      })//-建立编辑器
 
       form.on("sublimt(send)", (res) => {
         const { tips,title } = res.field
@@ -83,9 +86,9 @@ block scripts
           content: layedit.getContent(index)
         }
         
-        $.post("/article",data,(msg) => {
+        $.post("/article",data, (msg) => {
           if(msg.status){
-            layer.alert('发表成功'，(res) => {
+            layer.alert('发表成功', (res) => {
               location.href = "/"
             })
           }else{
