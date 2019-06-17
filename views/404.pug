@@ -3,17 +3,15 @@ html
   head
     title 404
     meta(charset="utf-8")
-    style(ref="stylesheet")
-      .text-center{
-        text-align: center;
-      }
+    style(ref="stylesheet").
+      .text-center { text-align: center; }
   body
     h1.text-center 404
     h2.text-center sorry! not found!!!
     .text-center
       span#time 3
       |秒后将返回首页
-    script
+    script.
       let n = 3
       const fn = () => {
         time.innerHTML = --n

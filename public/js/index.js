@@ -9,7 +9,7 @@ layui.use(["element", "laypage"], () => {
   laypage.render({
     elem: "laypage",
     count: $("#laypage").data("maxnum"),
-    limit: 10,
+    limit: 5,
     groups: 3,
     curr: location.pathname.replace("/page/", ""),
     jump(obj, f){

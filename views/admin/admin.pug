@@ -9,8 +9,8 @@ html
     link(rel="stylesheet", href="/css/nav.css")
     script(src="/layui/layui.js")
 
-    style
-      .layui-side .layui-body{
+    style.
+      .layui-side, .layui-body{
         top: 60px;
       }
       .layui-body{
@@ -51,6 +51,7 @@ body
     layui.use('element',function(){
       var element = layui.element;
       const $ = layui.$;
+
       $("a").each((i,v) => {
         const a_href = $(v).prop('href');
 

@@ -75,7 +75,7 @@ block scripts
         ]
       })//-建立编辑器
 
-      form.on("sublimt(send)", (res) => {
+      form.on("submit(send)", (res) => {
         const { tips,title } = res.field
 
         if(layedit.getText(index).trim().length === 0)return layer.alert("请输入内容")

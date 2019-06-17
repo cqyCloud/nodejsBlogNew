@@ -24,7 +24,7 @@ block main
 
         if(obj.event !== "del")return
 
-        layer.confirm("确认删除？"，()=>{
+        layer.confirm("确认删除？", ()=>{
           $.ajax({
             method:"delete",
             url:"/user/" + _id,
