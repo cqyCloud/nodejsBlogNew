@@ -158,3 +158,27 @@ exports.logout = async ctx => {
   //在后台做重定向到根
   ctx.redirect("/")
 }
+
+//用户头像上传
+exports.upload = async ctx => {
+  const filename = ctx.req.file.filename
+
+  let data = {}
+  // console.log(1)
+  await User.updateOne({_id: ctx.session.uid},{$set : {avatar:"/avatar/" + filename}},(err,res) => {
+    if(err){
+      data = {
+        status:0,
+        message:"上传失败"
+      }
+    }else{
+      data = {
+        status:1,
+        message:"上传成功"
+      }
+    }
+  })
+  // console.log(data)
+  // ctx.type = "json"
+  ctx.body = data
+}

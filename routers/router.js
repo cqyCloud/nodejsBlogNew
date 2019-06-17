@@ -4,6 +4,7 @@ const user = require("../control/user")
 const article = require("../control/article")
 const comment = require("../control/comment")
 const admin = require("../control/admin")
+const upload = require("../util/upload")
 
 //设计主页
 router.get("/",user.keepLog, article.getList)
@@ -41,8 +42,12 @@ router.get("/article/:id",user.keepLog,article.details)
 //发表评论
 router.post("/comment",user.keepLog,comment.save)
 
-//文章 评论 头像上传
+//后台管理页面: 文章 评论 头像上传
 router.get("/admin/:id",user.keepLog,admin.index)
+
+//头像上传
+router.post("/upload",user.keepLog,upload.single("file"),user.upload)
+
 
 router.get("*",async ctx => {
   await ctx.render("404",{
