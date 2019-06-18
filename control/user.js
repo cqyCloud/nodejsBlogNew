@@ -135,9 +135,14 @@ exports.keepLog = async (ctx,next) => {
   if(ctx.session.isNew){//session没有
     // console.log(ctx.cookies.get("username"))
     if(ctx.cookies.get("username")){
+      let uid = ctx.cookies.get("uid")
+      const avatar = await User.findById(uid)
+        .then(data => data.avatar)
+
       ctx.session = {
         username: ctx.cookies.get("username"),
-        uid: ctx.cookies.get("uid")
+        uid,
+        avatar
       }
     }
   }

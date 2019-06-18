@@ -48,6 +48,17 @@ router.get("/admin/:id",user.keepLog,admin.index)
 //头像上传
 router.post("/upload",user.keepLog,upload.single("file"),user.upload)
 
+//获取用户的所有评论
+router.get("/user/comments",user.keepLog,comment.comlist)
+
+//后台: 删除用户评论
+router.del("/comment/:id", user.keepLog, comment.del)
+
+//获取用户的所有文章
+router.get("/user/articles",user.keepLog,article.artlist)
+
+//后台: 删除用户文章
+router.del("/comment/:id", user.keepLog, article.del)
 
 router.get("*",async ctx => {
   await ctx.render("404",{

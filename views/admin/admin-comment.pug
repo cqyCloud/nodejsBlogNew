@@ -12,7 +12,7 @@ block main
     a(lay-event="del").layui-btn.layui-btn-danger.layui-btn-xs 删除
 
   script.
-    layui.use(['table','layui'],function(){
+    layui.use(['table','layer'],function(){
       const table = layui.table
       const layer = layui.layer
       const $ = layui.$
@@ -26,7 +26,7 @@ block main
 
         if(obj.event !== "del")return
 
-        layer.confirm("确认删除？",()=>{
+        layer.confirm("确认删除？", () => {
           $.ajax({
             method:"delete",
             url:"/comment/" + commentId,
