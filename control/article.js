@@ -1,14 +1,6 @@
-const { db } = require('../Schema/config')
-
-const ArticleSchema= require('../Schema/article')
-const Article = db.model("articles",ArticleSchema)//通过 db 对象创建操作user数据库的模型对象
-
-// //去用户的 Schema ,为了拿到操作 users集合的实例对象
-const UserSchema= require('../Schema/user')
-const User = db.model("users",UserSchema)
-
-const CommentSchema= require('../Schema/comment')
-const Comment = db.model("Comments",CommentSchema)//通过 db 对象创建操作user数据库的模型对象
+const Article = require("../models/article")
+const Comment = require("../models/comment")
+const User = require("../models/user")
 
 
 // 返回文章发表页
@@ -138,9 +130,8 @@ exports.details = async ctx => {
 exports.artlist = async ctx => {
   const uid = ctx.session.uid
 
-  console.log(1)
   const data = await Article.find({author:uid})
-  console.log(data)
+  
   ctx.body = {
     code:0,
     count:data.length,
@@ -150,50 +141,21 @@ exports.artlist = async ctx => {
 
 // 删除对应id的文章
 exports.del = async ctx => {
-  const articleId = ctx.params.id
-  let uid ;
+  const _id = ctx.params.id
 
-  //用户的 articleNum -=1
-  //删除文章对应的所有评论
-  //被删除评论对应的用户表里的commentNum -=1
-
-  let res = {}
-  //删除文章
-  await Article.deleteOne({_id}).exec(err => {
-    if(err){
+  let res = {
+    state:1,
+    message:"成功"
+  }
+  await Article.findById(_id)
+    .then(data => data.remove())
+    .catch(err => {
       res = {
         state:0,
-        message:"删除失败"
+        message:err
       }
-    }else{
-      Article.findById(_id,(err,data) => {
-        if(err)return console.log(err)
+    })
 
-        uid = data.author
-      })
-    }
-  })
-
-  await User.update({_id:uid},{$inc:{articleNum: -1}})
-
-  //删除所有评论
-  await Comment.find({article:_id}).then(async data => {
-    //data => array
-    let len = data.length
-    let i = 0
-    async function deleteUser(){
-      if(i >= len)return
-      const cId = data[i]._id
-
-      await Comment.deleteOne({_id:cId}).then(data => {
-        User.update({_id:data[i].from},{$inc:{commentNum:-1}},err => {
-          if(err)return console.log(err)
-          i++
-        })
-      })
-    }
-    await deleteUser()
-  })
 
   ctx.body = res
 }

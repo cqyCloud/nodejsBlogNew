@@ -58,7 +58,13 @@ router.del("/comment/:id", user.keepLog, comment.del)
 router.get("/user/articles",user.keepLog,article.artlist)
 
 //后台: 删除用户文章
-router.del("/comment/:id", user.keepLog, article.del)
+router.del("/article/:id", user.keepLog, article.del)
+
+//获取用户列表
+router.get("/user/users",user.keepLog,admin.userlist)
+
+//后台: 删除用户文章
+router.del("/user/:id", user.keepLog, admin.del)
 
 router.get("*",async ctx => {
   await ctx.render("404",{

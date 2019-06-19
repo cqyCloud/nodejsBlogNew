@@ -1,14 +1,6 @@
-const { db } = require('../Schema/config')
-
-const ArticleSchema= require('../Schema/article')
-const Article = db.model("articles",ArticleSchema)//通过 db 对象创建操作user数据库的模型对象
-
-// //去用户的 Schema ,为了拿到操作 users集合的实例对象
-const UserSchema= require('../Schema/user')
-const User = db.model("users",UserSchema)
-
-const CommentSchema= require('../Schema/comment')
-const Comment = db.model("comments",CommentSchema)//通过 db 对象创建操作user数据库的模型对象
+const Article = require("../models/article")
+const Comment = require("../models/comment")
+const User = require("../models/user")
 
 //保存评论
 exports.save = async ctx => {
@@ -71,38 +63,23 @@ exports.comlist = async ctx => {
 
 //删除对应id的评论
 exports.del = async ctx => {
+  // 评论 id
   const commentId = ctx.params.id
-
-  let isOk = true
-  // //让文章的计数器 -1
-  // await Article.update({_id:articleId},{$inc:{commentNum: -1}})
-  // await User.update({_id:uid},{$inc:{commentNum: -1}})
-
-  let articleId,uid;
-
-  //删除评论
-  await Comment.findById(commentId,(err,data)=> {
-    if(err){
-      console.log(err)
-      isOk = false
-      return
-    }else{
-      articleId = data.article
-      uid = data.from
-
-    }
-  })
-  
-  await Article.update({_id:articleId},{$inc:{commentNum: -1}})
-
-  await User.update({_id:uid},{$inc:{commentNum: -1}})
-
-  await Comment.deleteOne({_id:commentId})
-
-  if(isOk){
-    ctx.body = {
-      state:1,
-      message:"删除成功"
-    }
+  //拿到commentId 删除comment
+ 
+  let res= {
+    state:1,
+    message:"成功"
   }
+
+  Comment.findById(commentId)
+    .then(data => data.remove())
+    .catch(err => {
+      res = {
+        state:0,
+        message:err
+      }
+    })
+
+  ctx.body = res
 }

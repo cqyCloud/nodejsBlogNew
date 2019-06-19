@@ -1,14 +1,6 @@
-const { db } = require('../Schema/config')
-
-const ArticleSchema= require('../Schema/article')
-const Article = db.model("articles",ArticleSchema)//通过 db 对象创建操作user数据库的模型对象
-
-// //去用户的 Schema ,为了拿到操作 users集合的实例对象
-const UserSchema= require('../Schema/user')
-const User = db.model("users",UserSchema)
-
-const CommentSchema= require('../Schema/comment')
-const Comment = db.model("comments",CommentSchema)//通过 db 对象创建操作user数据库的模型对象
+const Article = require("../models/article")
+const Comment = require("../models/comment")
+const User = require("../models/user")
 
 const fs = require("fs")
 const { join } = require('path')
@@ -39,4 +31,36 @@ exports.index = async ctx => {
     await ctx.render("404",{title:"404"})
   }
 
+}
+
+//获取用户列表
+exports.userlist = async ctx => {
+  const data = await User.find({role:1})
+
+  ctx.body = {
+    code:0,
+    count:data.length,
+    data
+  }
+}
+
+// 删除用户
+exports.del = async ctx => {
+  const _id = ctx.params.id
+
+  let res = {
+    state:1,
+    message:"成功"
+  }
+  await User.findById(_id)
+    .then(data => data.remove())
+    .catch(err => {
+      res = {
+        state:0,
+        message:err
+      }
+    })
+
+
+  ctx.body = res
 }

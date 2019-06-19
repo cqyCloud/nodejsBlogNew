@@ -19,5 +19,18 @@ const CommentSchema = new Schema({
   }
 })
 
+//设置comment 的 remove钩子
+CommentSchema.post("remove",(doc) => {
+  //当前这个回调函数 一定会在 remove 事件执行触发
+  const Article = require("../models/article")
+  const User = require("../models/user")
+
+  let { from, article } = doc
+  //对应评论数 -1
+  Article.updateOne({_id: article},{$inc:{commentNum:-1}}).exec()
+  //当前被删除评论的作者 commentNum -1
+  User.updateOne({_id: from},{$inc:{commentNum:-1}}).exec()
+})
+
 
 module.exports = CommentSchema
